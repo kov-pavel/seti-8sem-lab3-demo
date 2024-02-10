@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+
+  mysite:
+    build:
+      dockerfile: ./Dockerfile
+      context: ./app/
+    image: mysite:latest
+    container_name: mysite
+    volumes:
+      - static_volume:/kovpavel/static
+      - media_volume:/kovpavel/media
+
+  nginx:
+    build:
+      dockerfile: nginx/nginx1/Dockerfile
+      context: ./nginx/nginx1/
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - static_volume:/kovpavel/static
+      - media_volume:/kovpavel/media
+    depends_on:
+      - mysite
+    ports:
+      - "80:80"
+
+volumes:
+  static_volume:
+  media_volume:
